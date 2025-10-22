@@ -1,0 +1,8 @@
+# Ignore everything by default
+*
+
+# Explicitly include only these files
+!redact.py
+!settings.yml
+!README.md
+!.gitignore
