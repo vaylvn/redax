@@ -129,6 +129,18 @@ class RedaxApp(ctk.CTk):
         self.on_theme_change(self.settings.get("theme", "Dark"))
 
         self._bind_keys()
+        
+        
+        self.attributes('-alpha', 0.0)
+        self.after(10, self.fade_in)
+
+    def fade_in(self, step=0.05):
+        alpha = self.attributes('-alpha')
+        if alpha < 1.0:
+            alpha += step
+            self.attributes('-alpha', alpha)
+            self.after(10, self.fade_in, step)
+                
 
     # --------------------------- UI ---------------------------
     def _build_ui(self):
@@ -319,7 +331,10 @@ class RedaxApp(ctk.CTk):
     def on_open(self):
         ftypes = [
             ("Images", "*.png *.jpg *.jpeg *.webp *.bmp"),
-            ("PNG", "*.png"), ("JPEG", "*.jpg *.jpeg"), ("WEBP", "*.webp"), ("All files", "*.*")
+            ("PNG", "*.png"),
+            ("JPEG", "*.jpg *.jpeg"),
+            ("WEBP", "*.webp"),
+            ("All files", "*.*"),
         ]
         path = filedialog.askopenfilename(title="Open image", filetypes=ftypes)
         if not path:
@@ -335,10 +350,80 @@ class RedaxApp(ctk.CTk):
         self.image = img
         self.image_path = path
         self.pending.clear()
-        self.undo_stack.clear(); self.redo_stack.clear()
+        self.undo_stack.clear()
+        self.redo_stack.clear()
         self._update_controls()
         self._fit_to_canvas()
-        self.status.configure(text=f"Loaded: {os.path.basename(path)} | {self.image.width}×{self.image.height}")
+
+        # --- New: Fade-in the rendered image ---
+        self._fade_in_render(img)
+
+        self.status.configure(
+            text=f"Loaded: {os.path.basename(path)} | {self.image.width}×{self.image.height}"
+        )
+
+    def _fade_in_render(self, pil_image, steps=10, delay=10):
+        """Smoothly fade in a PIL image on the canvas, without black showing through transparency."""
+        if not hasattr(self, "canvas"):
+            return
+
+        # Grab theme background colour
+        bg_hex = self.active_theme["bg"].lstrip("#")
+        bg_rgb = tuple(int(bg_hex[i:i+2], 16) for i in (0, 2, 4))
+
+        # Prepare image scaled to current zoom
+        display_img = pil_image.resize(
+            (int(pil_image.width * self.fit_scale),
+             int(pil_image.height * self.fit_scale)),
+            Image.Resampling.LANCZOS
+        ).convert("RGBA")
+
+        # Clear existing content once
+        self.canvas.delete("all")
+
+        # --- Fade animation ---
+        for i in range(steps + 1):
+            alpha = int(255 * (i / steps))
+
+            # Create the intermediate alpha frame
+            frame = display_img.copy()
+            frame.putalpha(alpha)
+
+            # Flatten onto theme background BEFORE sending to Tk
+            base = Image.new("RGBA", frame.size, bg_rgb + (255,))
+            composited = Image.alpha_composite(base, frame).convert("RGB")
+
+            # Draw on canvas
+            tk_img = ImageTk.PhotoImage(composited)
+            self.display_tk = tk_img
+            self.canvas.create_image(
+                self.canvas.winfo_width() // 2,
+                self.canvas.winfo_height() // 2,
+                image=tk_img,
+                anchor="center",
+                tags="img",
+            )
+
+            self.update_idletasks()
+            self.after(delay)
+
+        # --- Final opaque render to guarantee proper background ---
+        self.canvas.delete("img")
+        final_base = Image.new("RGBA", display_img.size, bg_rgb + (255,))
+        final_composite = Image.alpha_composite(final_base, display_img).convert("RGB")
+        self.display_tk = ImageTk.PhotoImage(final_composite)
+        self.canvas.create_image(
+            self.canvas.winfo_width() // 2,
+            self.canvas.winfo_height() // 2,
+            image=self.display_tk,
+            anchor="center",
+            tags="img",
+        )
+
+        self.update_idletasks()
+
+
+
 
     def on_save(self):
         if self.image is None:
