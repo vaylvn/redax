@@ -3,5 +3,4 @@
 
 # Explicitly include only these files
 !redax.py
-!settings.yml
 !README.md 

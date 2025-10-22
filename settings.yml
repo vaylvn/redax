@@ -1,1 +1,3 @@
-theme: Dark
+theme: Monochrome
+mode: pixelate
+pixel: 36
