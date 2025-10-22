@@ -18,7 +18,7 @@ Designed for simplicity - open an image, draw to redact, and export. No fluff, n
   - `Ctrl+O` → Open  
   - `Ctrl+S` → Save  
   - `Ctrl+Z` / `Ctrl+Y` → Undo / Redo  
-  - `Ctrl+T` → Switch Theme  
+  - `Ctrl+T` / `Ctrl+Shift+T` → Switch Theme  
   - `Space` → Burn current redactions
 - **Zoom & Pan** for precision
 
