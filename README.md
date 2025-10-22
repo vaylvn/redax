@@ -1,4 +1,4 @@
-# Redax Mini
+# <img src="https://i.ibb.co/SwP335Y4/icon.png" alt="Redax Icon" width="32" height="32" /> Redax Mini
 
 A lightweight, minimalist image redaction tool built with **Python** and **CustomTkinter**.  
 Designed for simplicity - open an image, draw to redact, and export. No fluff, no clutter.
