@@ -2,7 +2,7 @@
 *
 
 # Explicitly include only these files
-!redact.py
+!redax.py
 !settings.yml
 !README.md
 !.gitignore
