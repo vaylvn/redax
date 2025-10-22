@@ -1,6 +1,5 @@
 # <img src="https://i.ibb.co/SwP335Y4/icon.png" alt="Redax Icon" width="28" height="28" /> Redax Mini
-
-> A minimalist desktop tool for quickly redacting or pixelating sensitive areas of an image.
+A minimalist desktop tool for quickly redacting or pixelating sensitive areas of an image.
 
 ---
 
