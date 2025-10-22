@@ -20,6 +20,5 @@ Designed for simplicity — open an image, draw to redact, and export. No fluff,
   - `Ctrl+Z` / `Ctrl+Y` → Undo / Redo  
   - `Space` → Burn current redactions
 - **Zoom & Pan** for precision
-- **Portable EXE build** via `build.bat`
 
 ---
