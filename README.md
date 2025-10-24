@@ -3,7 +3,7 @@ A minimalist desktop tool for quickly redacting or pixelating sensitive areas of
 
 ---
 
-<img src="https://i.ibb.co/2YZV8gmn/redax-trim.gif" alt="redax-trim" border="0">
+![Redax](https://cdn.discordapp.com/attachments/1274351440537583666/1431291724382212148/redax-trim.gif?ex=68fce1cb&is=68fb904b&hm=806397954b141387a79612c3582d2b9017594153c97c252769eda50802e4817e&)
 
 ---
 
