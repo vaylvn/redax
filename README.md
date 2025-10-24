@@ -3,6 +3,10 @@ A minimalist desktop tool for quickly redacting or pixelating sensitive areas of
 
 ---
 
+<img src="https://i.ibb.co/2YZV8gmn/redax-trim.gif" alt="redax-trim" border="0">
+
+---
+
 ## Features
 - **Redact** sensitive regions with solid black or pixelation
 - **Open / Save** PNG, JPG, WEBP, BMP formats
